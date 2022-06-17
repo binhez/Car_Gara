@@ -1,0 +1,71 @@
+{% extends "catalog/base.html" %}
+{% block "title" %} Home {% endblock "title" %}
+{% block "body" %}
+<div class="container-fluid px-0 mb-3">
+    <img src="https://source.unsplash.com/1600x600/?car" class="d-block w-100 mx-0" alt="...">
+
+</div>
+<form method="post" action="/product/create" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h1 class="text-center">Create new product</h1>
+    <div class="container mb-3 py-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Car">
+        </div>
+        <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <!--            <input type="text" class="form-control" id="category" name="category" placeholder="Sub-Medium Class Vehicles (C)" multiple>-->
+            <!--            <select name="category" id="category" multiple>-->
+            <!--                {% for c in category %}-->
+            <!--                <option value="{{c.name}}">{{c.name}}</option>-->
+            <!--                {% endfor %}-->
+            <!--            </select>-->
+            <ul>
+                {% for c in category %}
+                <!-- Dropdown menu links -->
+                <li>
+                    <input type="checkbox" id="{{c.name}}" name="category" value="{{c.name}}">
+                    <label for="{{c.name}}">{{c.name}}</label><br>
+                    <ul>
+                        {% for ch in c.children.all %}
+                        <li style="list-style-type: none;">
+                            <input type="checkbox" id="{{ch.name}}" name="category" value="{{ch.name}}">
+                            <label for="{{ch.name}}">{{ch.name}}</label><br>
+                        </li>
+                        <ul>
+                            {% for chch in ch.children.all %}
+                            <li style="list-style-type:none;">
+                                <input type="checkbox" id="{{chch.name}}" name="category" value="{{chch.name}}">
+                                <label for="{{chch.name}}">{{chch.name}}</label><br>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+            </ul>
+            <!--            {% for c in category %}-->
+            <!--            <input type="checkbox" id="{{c.name}}" value="{{c.name}}">-->
+            <!--            <label for="{{c.name}}">{{c.name}}</label><br>-->
+            <!--            {% endfor %}-->
+        </div>
+        <div class="mb-3">
+            <label for="desc" class="form-label">Description</label>
+            <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="img" class="form-label">Image</label>
+            <input type="file" class="form-control" id="img" name="img" accept="image/*" multiple>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Summit</button>
+        <a href="/product/retrieve" class="btn btn-sm btn-info">Detail</a>
+        <hr>
+        <!--    {% for img in images %}-->
+        <!--    <img src="{{img.images.url}}" alt="Image">-->
+        <!--    {% endfor %}-->
+    </div>
+</form>
+{% endblock "body" %}

@@ -1,0 +1,29 @@
+{% extends "catalog/base.html" %}
+{% block "title" %} Home {% endblock "title" %}
+{% block "body" %}
+<div class="container-fluid px-0 mb-3">
+    <img src="https://source.unsplash.com/1600x600/?car" class="d-block w-100 mx-0" alt="...">
+
+</div>
+<form method="post" action="/category/update/{{category.id}}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h1 class="text-center">Update Category</h1>
+    <div class="container mb-3 py-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{category.name}}"
+                   placeholder="Luxury">
+        </div>
+        <div class="mb-3">
+            <label for="desc" class="form-label">Description</label>
+            <textarea class="form-control" id="desc" name="desc" rows="3">{{category.description}}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="img" class="form-label">Image</label>
+            <input type="file" class="form-control" id="img" name="img" accept="image/*">
+        </div>
+        <button class="btn btn-primary" type="submit">Update</button>
+
+    </div>
+</form>
+{% endblock "body" %}
